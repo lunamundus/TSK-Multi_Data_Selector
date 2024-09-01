@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QMainWindow, QPushButton, QVBoxLayout, QWidget, QListWidget, QFileDialog, QMessageBox
+from PySide6.QtWidgets import QMainWindow, QPushButton, QVBoxLayout, QHBoxLayout, QWidget, QListWidget, QFileDialog, QMessageBox
 from PySide6.QtCore import Qt
 
 from features.data_processing import data_processing, save_dataframe_to_excel
@@ -14,22 +14,30 @@ class MainWindow(QMainWindow):
         
         
     def setup_ui(self):
+        # 전체 레이아웃
         main_widget = QWidget()
         main_layout = QVBoxLayout()
         
+        # 버튼 레이아웃
+        data_processing_button_layout = QHBoxLayout()
+        
         # add file button
         add_file_button = QPushButton("파일 추가")
+        add_file_button.setFixedSize(250, 30)
         add_file_button.clicked.connect(self.add_file)
-        main_layout.addWidget(add_file_button)
+        data_processing_button_layout.addWidget(add_file_button)
+        
+        # processing data button
+        processing_data_button = QPushButton("파일 처리 및 저장")
+        processing_data_button.setFixedSize(250, 30)
+        processing_data_button.clicked.connect(self.process_and_save_data)
+        data_processing_button_layout.addWidget(processing_data_button)
+        
+        main_layout.addLayout(data_processing_button_layout)
         
         # file list widget
         self.file_list_widget = QListWidget()
         main_layout.addWidget(self.file_list_widget)
-        
-        # processing data button
-        processing_data_button = QPushButton("파일 처리 및 저장")
-        processing_data_button.clicked.connect(self.process_and_save_data)
-        main_layout.addWidget(processing_data_button)
         
         main_widget.setLayout(main_layout)
         self.setCentralWidget(main_widget)

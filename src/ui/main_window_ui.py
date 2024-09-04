@@ -40,7 +40,7 @@ class MainWindowUI:
         main_window.reset_file_button = QPushButton("초기화")
         # main_window.reset_button.setFixedSize(300, 30)
         main_window.reset_file_button.setFixedHeight(30)
-        # main_window.reset_file_button.setEnabled(False)
+        main_window.reset_file_button.setEnabled(False)
         file_delete_button_layout.addWidget(main_window.reset_file_button)
         
         main_layout.addLayout(file_delete_button_layout)
@@ -49,6 +49,7 @@ class MainWindowUI:
         main_window.settings_button = QPushButton("환경설정")
         # main_window.settings_button.setFixedSize(600, 30)
         main_window.settings_button.setFixedHeight(30)
+        main_window.settings_button.setEnabled(False)
         main_layout.addWidget(main_window.settings_button)
         
         main_widget.setLayout(main_layout)

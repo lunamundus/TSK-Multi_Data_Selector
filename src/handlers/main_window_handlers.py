@@ -19,6 +19,8 @@ class MainWindowHandlers:
         
         if file_path:
             main_window.file_list_widget.addItem(file_path)
+        
+        self.update_reset_button_state()
             
     
     def process_and_save_data(self, main_window):
@@ -56,32 +58,24 @@ class MainWindowHandlers:
             main_window.file_list_widget.takeItem(main_window.file_list_widget.row(item))
 
         QMessageBox.information(main_window, "정보", "선택된 파일이 삭제되었습니다.")
-    
-    
-    """
-    TODO: reset_file 메서드만 왜 main_window가 아닌 self로 file_list_widget을 가져와야 오류가 발생지 않는지 알아내기...!
-    - 모든 ui는 main_window에서 생성됨
-    - main_window.widget의 형태로 가져왔는데, reset_file 메서드에서만 이렇게 작동하지 않음
-    - reset_file 메서드에서는 self.widget 형태로 가져와야 작동함 (하지만.. 여기 class에는 file_list_widget이 없는걸..?)
-    """
+        
+        self.update_reset_button_state()
+            
+            
     def reset_file(self, main_window):
         # reset file list
-        if self.file_list_widget.count() > 0:
-            self.file_list_widget.clear()
-            QMessageBox.information(self, "정보", "파일 목록이 초기화되었습니다.")
-        else:
-            QMessageBox.warning(self, "경고", "추가된 파일이 없습니다.")
+        main_window.file_list_widget.clear()
+        QMessageBox.information(main_window, "정보", "파일 목록이 초기화되었습니다.")
+        self.update_reset_button_state()
         
     
-    """
-    TODO: reset_file 메서드 문제 해결 후, update_reset_button_state 메서드 만들기
-    """
-    # def update_reset_button_state(self, main_window):
-    #     # update reset button state
-    #     if main_window.file_list_widget.count() > 0:
-    #         main_window.reset_file_button.setEnabled(True)
-    #     else:
-    #         main_window.reset_file_button.setEnabled(False)
+    
+    def update_reset_button_state(self, main_window):
+        # update reset button state
+        if main_window.file_list_widget.count() > 0:
+            main_window.reset_file_button.setEnabled(True)
+        else:
+            main_window.reset_file_button.setEnabled(False)
     
     
     def open_settings_dialog(self, main_window):

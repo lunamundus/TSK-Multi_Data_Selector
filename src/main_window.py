@@ -25,6 +25,14 @@ class MainWindow(QMainWindow, MainWindowUI, MainWindowHandlers):
     def delete_file(self):
         super().delete_file(self)
         
+    
+    def reset_file(self):
+        super().reset_file(self)
+        
+    
+    def update_reset_button_state(self):
+        super().update_reset_button_state(self)
+        
         
     def open_settings_dialog(self):
         super().open_settings_dialog(self)

@@ -1,5 +1,10 @@
 import os
+import json
 import pandas as pd
+
+# 설정 파일 경로와 파일명을 settings.dialog.py와 동일하게 설정
+SETTINGS_PATH = os.path.join(os.getcwd(), "settings")
+SETTINGS_FILE = os.path.join(SETTINGS_PATH, "settings.conf")
 
 def find_header_row(file_path):
     # 파일을 읽어 데이터의 헤더가 있는 행을 찾는 함수
@@ -10,8 +15,18 @@ def find_header_row(file_path):
             if "No" in line and " Date" in line and " Time" in line:
                 return i
     return 0 # 헤더를 찾지 못하면 0 반환
+    
 
-
+def load_sensor_settings():
+    # 설정 파일에서 센서 설정 불러오기
+    try:
+        with open(SETTINGS_FILE, "r") as f:
+            settings = json.load(f)
+        return [sensor for sensor, checked in settings.items() if checked]
+    except FileNotFoundError:
+        return []
+    
+    
 def save_dataframe_to_excel(file_dir, file_name, selected_dataframe):
     # 데이터프레임을 엑셀 파일로 저장하는 함수
     try:
@@ -35,14 +50,12 @@ def data_processing(file_path):
         file_name = os.path.splitext(os.path.basename(file_path))[0]
         file_dir = os.path.dirname(file_path)
         
-        # 추출하고 싶은 칼럼 정의
-        selected_columns = ["No", " Date", " Time",  # 날짜 및 시간
-                            " A12", " A13", " A23",  # 가슴, 복부, 머리
-                            " A31", " A32", " A33", " A34",  # 등
-                            " A41", " A42", " A44",  # 오른손, 오른전완, 오른상완
-                            " A51", " A52", " A53",  # 왼쪽전완, 왼손, 왼쪽상완
-                            " B14", " B22", " B24",  # 오른허벅지, 오른발, 오른종아리
-                            " B33", " B42", " B43", " Event"]  # 왼쪽허벅지, 왼발, 왼쪽종아리
+        # 설정 파일에서 체크된 센서 정보 불러오기
+        selected_sensors = load_sensor_settings()
+        default_columns = ["No", " Date", " Time"]
+        
+        # 선택된 센서 칼럼 추가
+        selected_columns = default_columns + selected_sensors + [" Event"]
         
         # 선택된 칼럼 추출
         selected_skin_temp_dataframe = skin_temp_dataframe[selected_columns]

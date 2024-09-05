@@ -49,7 +49,6 @@ class MainWindowUI:
         main_window.settings_button = QPushButton("환경설정")
         # main_window.settings_button.setFixedSize(600, 30)
         main_window.settings_button.setFixedHeight(30)
-        main_window.settings_button.setEnabled(False)
         main_layout.addWidget(main_window.settings_button)
         
         main_widget.setLayout(main_layout)

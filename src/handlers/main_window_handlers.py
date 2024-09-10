@@ -4,7 +4,7 @@ from ui.settings_dialog import SettingsDialog
 from core.data_processing import data_processing, save_dataframe_to_excel
 
 class MainWindowHandlers:
-    def connect_signals(self, main_window):
+    def main_window_handlers_connect_signals(self, main_window):
         main_window.add_file_button.clicked.connect(self.add_file)
         main_window.processing_data_button.clicked.connect(self.process_and_save_data)
         main_window.settings_button.clicked.connect(self.open_settings_dialog)
@@ -20,7 +20,7 @@ class MainWindowHandlers:
         if file_path:
             main_window.file_list_widget.addItem(file_path)
         
-        self.update_reset_button_state()
+        self.update_file_list_count()
             
     
     def process_and_save_data(self, main_window):
@@ -59,23 +59,24 @@ class MainWindowHandlers:
 
         QMessageBox.information(main_window, "정보", "선택된 파일이 삭제되었습니다.")
         
-        self.update_reset_button_state()
+        self.update_file_list_count()
             
             
     def reset_file(self, main_window):
         # reset file list
         main_window.file_list_widget.clear()
         QMessageBox.information(main_window, "정보", "파일 목록이 초기화되었습니다.")
-        self.update_reset_button_state()
+        self.update_file_list_count()
         
     
-    
-    def update_reset_button_state(self, main_window):
+    def update_file_list_count(self, main_window):
         # update reset button state
         if main_window.file_list_widget.count() > 0:
             main_window.reset_file_button.setEnabled(True)
+            # main_window.file_list_stacked_layout.setCurrentWidget(main_window.empty_list_label)
         else:
             main_window.reset_file_button.setEnabled(False)
+            # main_window.file_list_stacked_layout.setCurrentWidget(main_window.file_list_widget)
     
     
     def open_settings_dialog(self, main_window):

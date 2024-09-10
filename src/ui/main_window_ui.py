@@ -1,4 +1,5 @@
-from PySide6.QtWidgets import QPushButton, QVBoxLayout, QHBoxLayout, QWidget, QListWidget
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QPushButton, QVBoxLayout, QHBoxLayout, QStackedLayout, QWidget, QListWidget, QLabel
 
 class MainWindowUI:
     def setup_ui(self, main_window):
@@ -24,8 +25,17 @@ class MainWindowUI:
         main_layout.addLayout(data_processing_button_layout)
         
         # file list widget
+        # file_list_stacked_layout = QStackedLayout()
         main_window.file_list_widget = QListWidget()
+        main_window.file_list_widget.setAcceptDrops(True)
         main_layout.addWidget(main_window.file_list_widget)
+        # file_list_stacked_layout.addWidget(main_window.file_list_widget)
+        # main_window.empty_list_label = QLabel("➕ 파일을 마우스로 끌어 오세요.(.csv 파일만 가능)")
+        # main_window.empty_list_label.setAlignment(Qt.AlignCenter)
+        # main_window.empty_list_label.setStyleSheet("color: gray; font-size: 12px;")
+        # file_list_stacked_layout.addWidget(main_window.empty_list_label)
+        # main_window.file_list_stacked_layout.setCurrentWidget(main_window.empty_list_label)
+        # main_layout.addLayout(main_window.file_list_stacked_layout)
         
         # file delete and reset button layout
         file_delete_button_layout = QHBoxLayout()
